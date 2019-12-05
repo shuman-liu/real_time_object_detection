@@ -31,11 +31,11 @@ def stream_detection(model_path="ssd_mobilenet_v1_coco_2018_01_28/frozen_inferen
     with detection.as_default():
         # create a TensorFlow session
         with tf.compat.v1.Session(graph=detection) as sess:
-            image_tensor = detection.get_tensor_by_name('image_tensor:0')
-            detection_boxes = detection.get_tensor_by_name('detection_boxes:0')
-            detection_scores = detection.get_tensor_by_name('detection_scores:0')
-            detection_classes = detection.get_tensor_by_name('detection_classes:0')
-            num_detections = detection.get_tensor_by_name('num_detections:0')
+            Image_Tensor = detection.get_tensor_by_name('image_tensor:0')
+            Detection_Boxes = detection.get_tensor_by_name('detection_boxes:0')
+            Detection_Scores = detection.get_tensor_by_name('detection_scores:0')
+            Detection_Classes = detection.get_tensor_by_name('detection_classes:0')
+            Num_Detections = detection.get_tensor_by_name('num_detections:0')
             # read in the video from the web cam
             while capture.isOpened():
                 # get frame from the video
@@ -43,14 +43,14 @@ def stream_detection(model_path="ssd_mobilenet_v1_coco_2018_01_28/frozen_inferen
                 # origin image matrix
                 image_np = cv2.cvtColor(image_np, cv2.COLOR_BGR2RGB)
                 # expend to image tensor
-                image_np_expanded = np.expand_dims(image_np, axis=0)
+                image_expanded = np.expand_dims(image_np, axis=0)
                 # detect the tensor once a time
-                (boxes, scores, classes, num) = sess.run(
-                    [detection_boxes, detection_scores, detection_classes, num_detections],
-                    feed_dict={image_tensor: image_np_expanded})
+                (Boxes, Scores, Classes, Num) = sess.run(
+                    [Detection_Boxes, Detection_Scores, Detection_Classes, Num_Detections],
+                    feed_dict={Image_Tensor: image_expanded})
                 # use the result to draw box om the frame image
-                vis_util.visualize_boxes_and_labels_on_image_array(image_np, np.squeeze(boxes),
-                                                                   np.squeeze(classes).astype(np.int32), np.squeeze(scores),
+                vis_util.visualize_boxes_and_labels_on_image_array(image_np, np.squeeze(Boxes),
+                                                                   np.squeeze(Classes).astype(np.int32), np.squeeze(Scores),
                                                                    categories_index, use_normalized_coordinates=True,
                                                                    line_thickness=2)
                 # show the video stream
