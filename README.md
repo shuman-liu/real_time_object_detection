@@ -1,4 +1,4 @@
-# real_time_object_detection
+# Real Time Object Detection
 A programs that can detect object in real time video stream.
 
 ## Author
