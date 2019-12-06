@@ -14,11 +14,11 @@ the link to the dataset: [click here](http://cocodataset.org/#home)
 1. platform Windows, Mac (Linux virtual machine may have problem with opening the camera)
 1. Python 3.7
 2. Package to install
-  - tensorflow
-  - opencv-python
-  - pillow
-  - matplotlib
-  - numpy
+      - tensorflow
+      - opencv-python
+      - pillow
+      - matplotlib
+      - numpy
   
  ## How to use
  Just run the ob_dect.py script and the program will up and running. And it will use the default camera on your computer.
