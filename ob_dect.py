@@ -7,13 +7,18 @@ from utils import visualization_utils as vis_util
 
 
 def stream_detection(model_path="ssd_mobilenet_v1_coco_2018_01_28/frozen_inference_graph.pb",
-                     label_path="ssd_mobilenet_v1_coco_2018_01_28/mscoco_label_map.pbtxt"):
+                     label_path="ssd_mobilenet_v1_coco_2018_01_28/mscoco_label_map.pbtxt",
+                     out_file_path="out.avi"):
     """
     this is the function that will detect the object from real time video
     :param model_path: the path to the model
     :param label_path: the path to the label file path
+    :param out_file_path: the path to the output video path
     :return: no return
     """
+    # create a video writer to output the real time video
+    fourcc = cv2.VideoWriter_fourcc(*'XVID')
+    out_stream = cv2.VideoWriter(out_file_path, fourcc, 20.0, (640, 480))
     capture = cv2.VideoCapture(0)
     detection = tf.Graph()
     # create TensorFlow instance
@@ -55,6 +60,8 @@ def stream_detection(model_path="ssd_mobilenet_v1_coco_2018_01_28/frozen_inferen
                                                                    line_thickness=2)
                 # show the video stream
                 cv2.imshow("capture", cv2.cvtColor(image_np, cv2.COLOR_RGB2BGR))
+                # save the video stream
+                out_stream.write(cv2.cvtColor(image_np, cv2.COLOR_RGB2BGR))
                 if cv2.waitKey(1) & 0xFF == ord('q'):
                     break
     capture.release()
